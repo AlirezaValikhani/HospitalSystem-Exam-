@@ -55,13 +55,13 @@ public class Menu {
         username = scanner.nextLine();
         System.out.print("Password : ");
         password = scanner.nextLine();
+        if( username.equals("admin") && password.equals("admin") )
+            adminMenu();
         User user = userService.findByUserName(username);
         if(user == null){
             System.out.println("User name or password is wrong!");
             return;
         }
-        if( username.equals("admin") && password.equals("admin") )
-            adminMenu();
         if(!password.equals(user.getPassword())){
             System.out.println("Wrong password!");
             return;
@@ -101,7 +101,7 @@ public class Menu {
             switch (input)
             {
                 case 1:
-                    if( clinicService.addClinic() == 2 )
+                    if( clinicService.addClinic() == 1 )
                         System.out.println("Clinic added successfully!");
                     else
                         System.out.println("This name already exists!");

@@ -13,7 +13,7 @@ public class UserRepositoryImpl extends GenericRepositoryImpl<User,Integer> impl
         var session = sessionFactory.getCurrentSession();
         return session
                 .createQuery("select u from User u where u.nationalCode = :userName",User.class)
-                .setParameter("national_code",userName)
+                .setParameter("userName",userName)
                 .getSingleResult();
     }
 }
