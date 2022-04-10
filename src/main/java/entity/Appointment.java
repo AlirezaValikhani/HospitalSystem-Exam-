@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -15,7 +16,7 @@ import java.util.Date;
 @ToString
 @Entity
 public class Appointment extends BaseEntity<Integer> {
-    private Date date;
+    private Timestamp timestamp;
     private Boolean isReserve;
     @OneToOne
     private Patient patient;

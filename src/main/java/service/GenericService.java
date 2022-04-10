@@ -4,9 +4,10 @@ import org.hibernate.SessionFactory;
 import repository.SessionFactorySingleton;
 import repository.impl.GenericRepositoryImpl;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GenericService<T,ID> {
+public class GenericService<T,ID extends Serializable> {
     private GenericRepositoryImpl<T,ID> genericRepositoryImpl = new GenericRepositoryImpl<>();
     private SessionFactory sessionFactory = SessionFactorySingleton.getInstance();
 
@@ -22,9 +23,9 @@ public class GenericService<T,ID> {
             } catch (Exception e) {
                 transaction.rollback();
                 System.out.println(e.getMessage());
-                return null;
             }
         }
+        return null;
     }
 
     public void delete(T t) {
@@ -55,30 +56,14 @@ public class GenericService<T,ID> {
         }
     }
 
-    public T findById(ID id){
+    public T findById(Class<T> tClass,ID id){
         try (var session = sessionFactory.getCurrentSession()) {
             var transaction = session.getTransaction();
             try {
                 transaction.begin();
-                T t = genericRepositoryImpl.findById(id);
+                T t = genericRepositoryImpl.findById(tClass,id);
                 transaction.commit();
                 return t;
-            } catch (Exception e) {
-                transaction.rollback();
-                System.out.println(e.getMessage());
-            }
-        }
-        return null;
-    }
-
-    public List<T> findAll(){
-        try (var session = sessionFactory.getCurrentSession()) {
-            var transaction = session.getTransaction();
-            try {
-                transaction.begin();
-                List<T> ts = genericRepositoryImpl.findAll();
-                transaction.commit();
-                return ts;
             } catch (Exception e) {
                 transaction.rollback();
                 System.out.println(e.getMessage());

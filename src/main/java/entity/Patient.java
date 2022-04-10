@@ -3,19 +3,17 @@ package entity;
 import entity.baseEntity.User;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-
 import javax.persistence.*;
 import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @DiscriminatorValue("patient")
 public class Patient extends User {
     private String diseaseRecords;
-    private String previousPrescription;
+    @OneToOne(mappedBy = "patient")
+    private Prescription previousPrescription;
     @ManyToMany(mappedBy = "patients")
     private Set<Doctor> doctors;
     @OneToOne
@@ -31,7 +29,7 @@ public class Patient extends User {
     @OneToOne(mappedBy = "patient")
     private Prescription prescription;
 
-    public Patient(String fullName, String nationalCode, String password, UserType userType, String diseaseRecords, String previousPrescription, Set<Doctor> doctors, Appointment appointment, Set<Secretary> secretaries, Prescription prescription) {
+    public Patient(String fullName, String nationalCode, String password, UserType userType, String diseaseRecords, Prescription previousPrescription, Set<Doctor> doctors, Appointment appointment, Set<Secretary> secretaries, Prescription prescription) {
         super(fullName, nationalCode, password, userType);
         this.diseaseRecords = diseaseRecords;
         this.previousPrescription = previousPrescription;
@@ -41,6 +39,16 @@ public class Patient extends User {
         this.prescription = prescription;
     }
 
+    public Patient(String fullName, String nationalCode, String password, UserType userType, String diseaseRecords) {
+        super(fullName, nationalCode, password, userType);
+        this.diseaseRecords = diseaseRecords;
+    }
+
     public Patient() {
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "diseaseRecords = " + diseaseRecords;
     }
 }

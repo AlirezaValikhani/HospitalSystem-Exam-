@@ -1,13 +1,12 @@
 package service;
 
-import entity.Clinic;
 import entity.Secretary;
 import entity.UserType;
 import org.hibernate.SessionFactory;
 import repository.SessionFactorySingleton;
 import repository.impl.SecretaryRepositoryImpl;
 
-import javax.swing.text.Utilities;
+import java.util.List;
 import java.util.Scanner;
 
 public class SecretaryService extends GenericService<Secretary,Integer>{
@@ -51,4 +50,10 @@ public class SecretaryService extends GenericService<Secretary,Integer>{
         return null;
     }
 
+    public void showSecretaries(){
+        List<Secretary> secretaries = secretaryRepositoryImpl.findAll();
+        for (Secretary s:secretaries) {
+            System.out.println(s.toString());
+        }
+    }
 }

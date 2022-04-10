@@ -13,7 +13,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @DiscriminatorValue("secretary")
 public class Secretary extends User {

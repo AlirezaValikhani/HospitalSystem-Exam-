@@ -8,7 +8,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @DiscriminatorValue("doctor")
 public class Doctor extends User {
@@ -30,16 +29,23 @@ public class Doctor extends User {
     @OneToOne
     private Secretary secretary;
 
-    public Doctor(String fullName, String nationalCode, String password, UserType userType, String expertise, Clinic clinic, Set<Patient> patients, Set<Prescription> prescription, Set<Appointment> appointments, Secretary admin) {
+    public Doctor(String fullName, String nationalCode, String password, UserType userType, String expertise, Clinic clinic, Set<Patient> patients, Set<Prescription> prescription, Set<Appointment> appointments, Secretary secretary) {
         super(fullName, nationalCode, password, userType);
         this.expertise = expertise;
         this.clinic = clinic;
         this.patients = patients;
         this.prescription = prescription;
         this.appointments = appointments;
-        this.secretary = admin;
+        this.secretary = secretary;
     }
 
     public Doctor() {
+    }
+
+    @Override
+    public String toString() {
+        return "Doctor :\n" + super.toString() +
+                "expertise = " + expertise + "\n" +
+                "clinic = " + clinic ;
     }
 }

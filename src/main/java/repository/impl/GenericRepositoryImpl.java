@@ -4,9 +4,9 @@ import org.hibernate.SessionFactory;
 import repository.SessionFactorySingleton;
 import repository.base.GenericRepository;
 
-import java.util.List;
+import java.io.Serializable;
 
-public class GenericRepositoryImpl<T,ID> implements GenericRepository<T,ID> {
+public class GenericRepositoryImpl<T,ID extends Serializable> implements GenericRepository<T,ID> {
     private SessionFactory sessionFactory = SessionFactorySingleton.getInstance();
     private Class<T> clazz;
 
@@ -38,20 +38,9 @@ public class GenericRepositoryImpl<T,ID> implements GenericRepository<T,ID> {
     }
 
     @Override
-    public T findById(ID id) {
-        var session = sessionFactory.getCurrentSession();
-        return session.find(clazz,id);
-        /*return session
-                .createQuery("select k from K k where k.id = :id",clazz)
-                .setParameter("id",id)
-                .getSingleResult();*/
-    }
-
-    @Override
-    public List<T> findAll() {
+    public T findById(Class <T> tClazz,ID id) {
         var session = sessionFactory.getCurrentSession();
         return session
-                .createQuery("select t from T t",clazz)
-                .list();
+                .get(tClazz,id);
     }
 }
